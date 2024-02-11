@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 16px;
+    display: block;
+}
+
+/*********************
+DASHBOARD STYLES
+*********************/
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.stats {
+    display: flex;
+}
+
+.stat {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+}
+
+.activity li {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+/*********************
+RESPONSIVE
+*********************/
+
+@media(max-width: 600px) {
+
+    nav li {
+        float: none;
+        display: block;
+    }
+
+}
+
+.status-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.red {
+    background-color: red;
+}
+.custom-btn {
+    background-color: lightgray  !important;
+    color: #343a40  !important;
+    border: #eeeeee;
+}
+
+.custom-icon {
+    color: grey  !important;
+    background-color: #eeeeee  !important;
+}

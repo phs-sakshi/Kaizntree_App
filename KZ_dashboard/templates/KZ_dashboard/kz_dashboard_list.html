@@ -1,0 +1,161 @@
+{% extends 'KZ_dashboard/base.html' %}
+{% block content %}
+<h3 class="float-left">Item Dashboard</h3>
+<!--<div class="float-right">-->
+<!--    <p>Total Categories: {{ total_categories }}</p>-->
+<!--    <p>Total Items: {{ total_items }}</p>-->
+<!--</div>-->
+<div class="clearfix"></div>
+<p>All items</p>
+<div class="input-group mb-2">
+    <div class="d-inline-block ml-3">
+        <button class="btn btn-primary mb-2 custom-btn" type="button" disabled>New Item Category</button>
+    </div>
+    <div class="d-inline-block ml-3">
+        <button class="btn btn-primary mb-2 custom-btn" type="button" disabled>New Item</button>
+    </div>
+    <div class="d-inline-block ml-3">
+        <button class="btn btn-primary mb-2 custom-btn" type="button" disabled>Options</button>
+    </div>
+
+    <div class="d-inline-block ml-auto">
+        <div class="d-inline-block ml-3">
+            <input id="searchInput" type="search" class="form-control" placeholder="Search">
+        </div>
+        <div class="d-inline-block ml-2">
+            <button id="searchButton" class="btn btn-outline-secondary btn-sm custom-icon" type="button">
+                <i class="fas fa-search custom-icon"></i> <!-- Font Awesome icon for search -->
+            </button>
+        </div>
+        <div class="d-inline-block ml-auto" id="filterFormContainer">
+            <form id="filterForm" class="form-inline" style="display: none;">
+                <div class="form-group mr-2">
+                    <select class="form-control" id="filterType" name="filter_type">
+                        <option value="above">Above</option>
+                        <option value="below">Below</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mr-1">
+                        <input type="number" class="form-control" id="stockStatus" name="stock_status" placeholder="Stock Status">
+                    </div>
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-info btn-sm"> <i class="fas fa-filter"></i></button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="d-inline-block ml-3">
+            <button id="filterButton" class="btn btn-primary mb-2 custom-btn" type="button" style="display: block;">
+                <i class="fas fa-filter"></i>
+            </button>
+        </div>
+
+
+
+        <button class="btn btn-info btn-sm mr-2 sort-btn custom-icon" type="button">
+            <i class="fas fa-sort custom-icon"></i> <!-- Font Awesome icon for sort -->
+        </button>
+    </div>
+</div>
+
+
+
+<table id="itemTable" class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">SKU</th>
+        <th scope="col">Name</th>
+        <th scope="col">Tags</th>
+        <th scope="col">Category</th>
+        <th scope="col">In Stock</th>
+        <th scope="col">Available Stock</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+    <tr class="item-row">
+        <td><input type="checkbox" name="selected_items" value="{{ item.pk }}"></td>
+        <td>{{ item.sku }}</td>
+        <td class="name">{{ item.name }}</td>
+        <td> {% for tag in item.tags.all %} {{ tag.name }}{% if not forloop.last %},{% endif %} {% endfor %} </td>
+        <td>{{ item.category.name }}</td>
+        <td>
+            <div class="d-flex justify-content-between">
+                {% if item.stock_status > 1000 %}
+                <span class="status-circle green align-self-center"></span>
+                {% elif item.stock_status > 200 %}
+                <span class="status-circle yellow align-self-center"></span>
+                {% else %}
+                <span class="status-circle red align-self-center"></span>
+                {% endif %}
+                <span class="align-self-center">{{ item.stock_status }}</span>
+            </div>
+        </td>
+
+        <td class="d-flex justify-content-between">{% if item.available_stock > 1000 %}
+            <span class="status-circle green align-self-center"></span>
+            {% elif item.available_stock > 200 %}
+            <span class="status-circle yellow align-self-center"></span>
+            {% else %}
+            <span class="status-circle red align-self-center"></span>
+            {% endif %}
+            <span class="align-self-center">{{ item.available_stock }}</span>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    // JavaScript code for showing/hiding filter form
+    $(document).ready(function () {
+        $("#filterButton").click(function () {
+            $("#filterForm").toggle();
+            $("#filterButton").toggle();
+        });
+
+        // JavaScript code for handling filter form submission
+        $("#filterForm").submit(function (event) {
+            event.preventDefault();
+            var filterType = $("#filterType").val();
+            var stockStatus = $("#stockStatus").val();
+            var url = window.location.href.split('?')[0];  // Remove existing query parameters
+            window.location.href = url + "?filter_type=" + filterType + "&stock_status=" + stockStatus;
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        var sortOrder = 1; // Initial sort order (ascending)
+
+        // Sort button click event
+        $(".sort-btn").click(function() {
+            // Get the rows to be sorted
+            var rows = $("#itemTable tbody tr");
+
+            // Sort the rows based on the item names and current sort order
+            rows.sort(function(a, b) {
+                var nameA = $(a).find(".name").text().toUpperCase();
+                var nameB = $(b).find(".name").text().toUpperCase();
+                var comparison = (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+                return comparison * sortOrder;
+            });
+
+            // Append the sorted rows back to the table
+            $("#itemTable tbody").empty().append(rows);
+
+            // Reverse the sort order for the next click
+            sortOrder *= -1;
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}
