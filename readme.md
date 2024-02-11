@@ -22,6 +22,8 @@ Kaizntree Dashboard is a Django-based web application designed to manage invento
 ```
 git clone https://github.com/phs-sakshi/Kaizntree_App.git
 cd Kaizntree_App
+python -m venv .venv
+source .venv/bin/activate
 ```
 Install dependencies:
 ```
