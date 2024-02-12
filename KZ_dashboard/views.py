@@ -1,5 +1,4 @@
 from django.utils.decorators import method_decorator
-from django.utils.functional import cached_property
 from django.views.generic import ListView
 from .models import KZ_dashboard
 from django.shortcuts import render, redirect
@@ -19,7 +18,6 @@ class DashboardView(ListView):
     model=KZ_dashboard
     context_object_name='items'
 
-    @cached_property
     def get_queryset(self):
         queryset = super().get_queryset()
         stock_status = self.request.GET.get('stock_status')

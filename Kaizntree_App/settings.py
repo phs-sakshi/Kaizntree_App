@@ -140,4 +140,4 @@ CACHES = {
         'LOCATION': 'default-cache',
     }
 }
-ALLOWED_HOSTS=['50.17.116.22']
+ALLOWED_HOSTS=['50.17.116.22','localhost']
