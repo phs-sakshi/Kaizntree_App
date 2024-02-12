@@ -19,6 +19,7 @@ urlpatterns = [
     path('dashboard/', views.DashboardView.as_view(), name='kz_dashboard_list'),
     path('home/', views.DashboardView.as_view(), name='kz_dashboard_list'),
     path('signin/', views.signin, name='signin'),
+    path('', views.signin, name='signin'),
     path('signout/', views.signout, name='signout'),
     path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api-json/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
