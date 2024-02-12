@@ -140,5 +140,4 @@ CACHES = {
         'LOCATION': 'default-cache',
     }
 }
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 ALLOWED_HOSTS=['50.17.116.22']
